@@ -17,43 +17,42 @@ import Alert from '../../components/Alert';
 import { useContext } from 'react';
 import { ContextAccses } from '../../App';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useSelector, useDispatch } from 'react-redux';
+import { getMovies } from '../../App/Counter/movieSlice';
+// import getMovies from "../App/Counter/movieSlice";
 
 const HomePage = () => {
+  const dispatch = useDispatch()
+  const { movies, loading } = useSelector((state) => state.movies)
   const API_IMG = 'https://image.tmdb.org/t/p/w500/';
-  const API_POPULAR = `https://api.themoviedb.org/3/discover/movie?api_key=9cc1bc46ae7070abb9a43667213d613a&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=2&with_watch_monetization_types=flatrate`;
-  const API_Cate = 'https://api.themoviedb.org/3/genre/movie/list?api_key=9cc1bc46ae7070abb9a43667213d613a&language=en-US';
+  // const API_POPULAR = `https://api.themoviedb.org/3/discover/movie?api_key=9cc1bc46ae7070abb9a43667213d613a&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=2&with_watch_monetization_types=flatrate`;
+  // const API_Cate = 'https://api.themoviedb.org/3/genre/movie/list?api_key=9cc1bc46ae7070abb9a43667213d613a&language=en-US';
   const [imageLoaded, setImageLoaded] = useState(true);
-  const { state, dispatch } = useContext(ContextAccses);
+  const { Setstate, Setdispatch } = useContext(ContextAccses);
   //UseState
   //UseEffect
   //axios
   const navigate = useNavigate();
+
   const [data, setData] = useState();
   const [cate, setCate] = useState();
 
-  useEffect(() => {
-    setTimeout(() => {
-      dispatch({ type: 'RESET' });
-    }, 5000);
-  }, [dispatch, state.isMasuk]);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     dispatch({ type: 'RESET' });
+  //   }, 5000);
+  // }, [dispatch, state.isMasuk]);
 
-  useEffect(() => {
-    axios
-      .get(API_POPULAR)
-      .then((res) => {
-        setData(res.data.results.slice(0, 15));
-      })
-      .catch((err) => console.log(err));
-  }, [API_POPULAR]);
+  
 
-  useEffect(() => {
-    axios
-      .get(API_Cate)
-      .then((res) => {
-        setCate(res.data.genres);
-      })
-      .catch((err) => console.log(err));
-  }, [API_Cate]);
+  // useEffect(() => {
+  //   axios
+  //     .get(API_Cate)
+  //     .then((res) => {
+  //       setCate(res.data.genres);
+  //     })
+  //     .catch((err) => console.log(err));
+  // }, [API_Cate]);
 
   const getID = (id) => {
     navigate(`/DetailPage/${id}`);
@@ -66,10 +65,17 @@ const HomePage = () => {
   const handleImageLoaded = () => {
     setImageLoaded(true);
   };
+
+  useEffect(() => {
+    dispatch(getMovies())
+  }, [])
+
+  if (loading) return <p>Loading...</p>
+
   return (
     <>
       <AnimatePresence onExitComplete={true} mode="wait">
-        {state.isMasuk ? <Alert /> : ''}
+        {Setstate.isMasuk ? <Alert /> : ''}
       </AnimatePresence>
       <div className="HomePage">
         <div className="HomaPage_img">
@@ -120,16 +126,16 @@ const HomePage = () => {
         className="mySwiper"
       >
         <div className="Popular_item">
-          {data &&
-            data.map((item) => {
+          {movies &&
+            movies.map((movie) => {
               return (
                 <SwiperSlide>
-                  <div onClick={() => getID(item.id)} key={item.id} className="Popular_menu">
+                  <div onClick={() => getID(movie._id)} key={movie._id} className="Popular_menu">
                     {!imageLoaded && <img className="spin-loader" src={spiner} alt="spin loader" />}
-                    <img className="poster" onLoad={handleImageLoaded} src={API_IMG + `${item.poster_path}`} alt="Movie Popular" />
+                    <img className="poster" onLoad={handleImageLoaded} src={`${movie.poster}`} alt="Movie Popular" />
                     <div className="dec">
-                      <h3>{item.title}</h3>
-                      <h4>{item.release_date}</h4>
+                      <h3>{movie.title}</h3>
+                      <h4>{movie.release_date}</h4>
                     </div>
                   </div>
                 </SwiperSlide>
@@ -175,16 +181,16 @@ const HomePage = () => {
         className="mySwiper"
       >
         <div className="Popular_item">
-          {data ? (
-            data.map((item) => {
+          {movies ? (
+            movies.map((movie) => {
               return (
                 <SwiperSlide>
-                  <div onClick={() => getID(item.id)} key={item.id} className="Popular_menu">
+                  <div onClick={() => getID(movie.id)} key={movie.id} className="Popular_menu">
                     {!imageLoaded && <img className="spin-loader" src={spiner} alt="spin loader" />}
-                    <img className="poster" onLoad={handleImageLoaded} src={API_IMG + `${item.poster_path}`} alt="Movie Popular" />
+                    <img className="poster" onLoad={handleImageLoaded} src={API_IMG + `${movie.poster_path}`} alt="Movie Popular" />
                     <div className="dec">
-                      <h3>{item.title}</h3>
-                      <h4>{item.release_date}</h4>
+                      <h3>{movie.title}</h3>
+                      <h4>{movie.release_date}</h4>
                     </div>
                   </div>
                 </SwiperSlide>

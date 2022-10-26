@@ -50,7 +50,7 @@ function App() {
       <ContextAccses.Provider value={{ state, dispatch }}>
         <AnimateSharedLayout>
           <AnimatePresence onExitComplete={true} mode="wait">
-            <BrowserRouter>
+            {/* <BrowserRouter>
               <Navbar />
               <Routes>
                 <Route path="/" element={<HomePage />} />
@@ -59,7 +59,7 @@ function App() {
                 <Route path="/Search/:name" element={<Search />} replace />
                 <Route path="/Categories/:genres" element={<Categories />} />
               </Routes>
-            </BrowserRouter>
+            </BrowserRouter> */}
           </AnimatePresence>
         </AnimateSharedLayout>
       </ContextAccses.Provider>
