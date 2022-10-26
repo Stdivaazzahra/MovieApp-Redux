@@ -14,45 +14,47 @@ import 'swiper/css/pagination';
 // import required modules
 import { Autoplay, Pagination, Navigation } from 'swiper';
 import Alert from '../../components/Alert';
-import { useContext } from 'react';
-import { ContextAccses } from '../../App';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useSelector, useDispatch } from 'react-redux';
-import { getMovies } from '../../App/Counter/movieSlice';
-// import getMovies from "../App/Counter/movieSlice";
+import { getCategory, getMovies } from '../../App/Counter/movieSlice';
+import { reset } from '../../App/Counter/auth';
 
 const HomePage = () => {
-  const dispatch = useDispatch()
-  const { movies, loading } = useSelector((state) => state.movies)
+  const { movies, isMasuk, cate } = useSelector((state) => state.movies);
+  const dispatch = useDispatch();
+  // console.log(getMovies());
   const API_IMG = 'https://image.tmdb.org/t/p/w500/';
   // const API_POPULAR = `https://api.themoviedb.org/3/discover/movie?api_key=9cc1bc46ae7070abb9a43667213d613a&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=2&with_watch_monetization_types=flatrate`;
-  // const API_Cate = 'https://api.themoviedb.org/3/genre/movie/list?api_key=9cc1bc46ae7070abb9a43667213d613a&language=en-US';
+  const API_Cate = 'https://api.themoviedb.org/3/genre/movie/list?api_key=9cc1bc46ae7070abb9a43667213d613a&language=en-US';
   const [imageLoaded, setImageLoaded] = useState(true);
-  const { Setstate, Setdispatch } = useContext(ContextAccses);
   //UseState
   //UseEffect
   //axios
   const navigate = useNavigate();
 
-  const [data, setData] = useState();
-  const [cate, setCate] = useState();
+  useEffect(() => {
+    axios
+      .get(`https://api.themoviedb.org/3/discover/movie?api_key=9cc1bc46ae7070abb9a43667213d613a&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=2&with_watch_monetization_types=flatrate`)
+      .then((res) => {
+        dispatch(getMovies(res.data.results));
+      })
+      .catch((error) => console.error(error));
+  }, [dispatch]);
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch(reset());
+    }, 5000);
+  }, [dispatch]);
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     dispatch({ type: 'RESET' });
-  //   }, 5000);
-  // }, [dispatch, state.isMasuk]);
-
-  
-
-  // useEffect(() => {
-  //   axios
-  //     .get(API_Cate)
-  //     .then((res) => {
-  //       setCate(res.data.genres);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }, [API_Cate]);
+  useEffect(() => {
+    axios
+      .get(API_Cate)
+      .then((res) => {
+        dispatch(getCategory(res.data.genres));
+      })
+      .catch((err) => console.log(err));
+  }, [API_Cate, dispatch]);
+  console.log(movies);
 
   const getID = (id) => {
     navigate(`/DetailPage/${id}`);
@@ -66,16 +68,10 @@ const HomePage = () => {
     setImageLoaded(true);
   };
 
-  useEffect(() => {
-    dispatch(getMovies())
-  }, [])
-
-  if (loading) return <p>Loading...</p>
-
   return (
     <>
       <AnimatePresence onExitComplete={true} mode="wait">
-        {Setstate.isMasuk ? <Alert /> : ''}
+        {isMasuk && <Alert />}
       </AnimatePresence>
       <div className="HomePage">
         <div className="HomaPage_img">
@@ -132,7 +128,7 @@ const HomePage = () => {
                 <SwiperSlide>
                   <div onClick={() => getID(movie._id)} key={movie._id} className="Popular_menu">
                     {!imageLoaded && <img className="spin-loader" src={spiner} alt="spin loader" />}
-                    <img className="poster" onLoad={handleImageLoaded} src={`${movie.poster}`} alt="Movie Popular" />
+                    <img className="poster" onLoad={handleImageLoaded} src={`${API_IMG}${movie.poster_path}`} alt="Movie Popular" />
                     <div className="dec">
                       <h3>{movie.title}</h3>
                       <h4>{movie.release_date}</h4>

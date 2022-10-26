@@ -1,38 +1,31 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-
-const initialState = {
-  movies: [],
-  loading: false,
-};
-
-export const getMovies = createAsyncThunk("movies/getMovies", async () => {
-  try {
-    const res = await axios.get(
-      `https://api.themoviedb.org/3/discover/movie?api_key=9cc1bc46ae7070abb9a43667213d613a&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=2&with_watch_monetization_types=flatrate`
-    );
-    return res.data.results;
-  } catch (error) {
-    console.error(error);
-  }
-});
+import { createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
 
 export const moviesSlice = createSlice({
-  name: "movies",
-  initialState,
-  reducers: {},
-  extraReducers: {
-    [getMovies.pending]: (state) => {
-      state.loading = true;
+  name: 'movies',
+  initialState: {
+    movies: null,
+    loading: false,
+    isMasuk: false,
+    openLogim: false,
+    openRegis: false,
+    cate: null,
+  },
+  reducers: {
+    getMovies: (state, { payload }) => {
+      return {
+        ...state,
+        movies: payload,
+      };
     },
-    [getMovies.fulfilled]: (state, { payload }) => {
-      state.loading = false;
-      state.movies = payload;
-    },
-    [getMovies.rejected]: (state) => {
-      state.loading = false;
+    getCategory: (state, { payload }) => {
+      return {
+        ...state,
+        cate: payload,
+      };
     },
   },
 });
 
+export const { getMovies, getCategory } = moviesSlice.actions;
 export default moviesSlice.reducer;

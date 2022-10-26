@@ -12,8 +12,6 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 // import required modules
 import { Autoplay, Pagination, Navigation } from 'swiper';
-import { useContext } from 'react';
-import { ContextAccses } from '../../App';
 import { motion } from 'framer-motion';
 
 const Detail = () => {
@@ -21,7 +19,6 @@ const Detail = () => {
   const [video, setVideo] = useState();
   const [cast, setCast] = useState();
   const [open, setOpenVideo] = useState(false);
-  const { dispatch } = useContext(ContextAccses);
 
   const { id } = useParams();
 
@@ -63,7 +60,6 @@ const Detail = () => {
   //CEK TOKEN
   const credential = localStorage.getItem('credential');
   if (!credential) {
-    dispatch({ type: 'BELUM_MASUK' });
     return <Navigate to="/" replace />;
   }
   const openVideo = () => {
@@ -133,7 +129,7 @@ const Detail = () => {
                 disableOnInteraction: false,
               }}
               className="mySwiper"
-              >
+            >
               <div className="cast_wrap">
                 {cast ? (
                   cast.map((e) => {
@@ -151,17 +147,16 @@ const Detail = () => {
                       </SwiperSlide>
                     );
                   })
-                  ) : (
-                    <h2>Loading...</h2>
-                    )}
+                ) : (
+                  <h2>Loading...</h2>
+                )}
               </div>
             </Swiper>
           </div>
         </motion.div>
-      )
-      }
-  </>
+      )}
+    </>
   );
 };
-     
+
 export default Detail;
