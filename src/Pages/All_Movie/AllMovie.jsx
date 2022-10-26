@@ -12,7 +12,6 @@ const AllMovie = () => {
   const API_ALL = 'https://api.themoviedb.org/3/movie/popular?api_key=9cc1bc46ae7070abb9a43667213d613a';
   const API_IMG = 'https://image.tmdb.org/t/p/w500/';
   const [imageLoaded, setImageLoaded] = useState(true);
-  const { dispatch } = useContext(ContextAccses);
   //UseState
   //UseEffect
   //axios
@@ -27,7 +26,6 @@ const AllMovie = () => {
   //CEK TOKEN
   const credential = localStorage.getItem('credential');
   if (!credential) {
-    dispatch({ type: 'BELUM_MASUK' });
     return <Navigate to="/" replace />;
   }
 

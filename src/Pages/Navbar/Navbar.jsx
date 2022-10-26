@@ -5,7 +5,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import { ContextAccses } from '../../App';
 import { motion } from 'framer-motion';
 
 const Navbar = () => {
@@ -14,13 +13,11 @@ const Navbar = () => {
   const [isOpenRes, setIsOpenRes] = useState(false);
   const [setIsOpenGlg] = useState(false);
   const credential = localStorage.getItem('credential');
-  const { dispatch } = useContext(ContextAccses);
 
   const navigate = useNavigate();
 
   const searchBtn = (name) => {
     if (!credential) {
-      dispatch({ type: 'BELUM_MASUK' });
     } else {
       if (name) {
         navigate(`/Search/${name}`);
