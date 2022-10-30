@@ -5,32 +5,54 @@ import './Categories.css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation } from 'swiper';
 import CardList from './cardList/CardList';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { blumMasuk } from '../../App/Counter/auth';
+import { getGenre } from '../../App/Counter/genresSlice';
+// import { getSearchGen, searchGenSelectors } from '../../App/Counter/searchSlice';
+import { getSearchGen} from '../../App/Counter/searchGenSlice';
 
 const Categories = () => {
+  const { genre } = useSelector((state) => state.genre);
+  const { searchGen } = useSelector((state) => state.searchGen);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { genres } = useParams();
-  const dispatch = useDispatch();
-  const API_Cate = 'https://api.themoviedb.org/3/genre/movie/list?api_key=9cc1bc46ae7070abb9a43667213d613a&language=en-US';
-  const API_SEARCH = 'https://api.themoviedb.org/3/search/movie?api_key=9cc1bc46ae7070abb9a43667213d613a&query=' + genres;
-  const [cate, setCate] = useState();
-  const [data, setData] = useState();
-  useEffect(() => {
-    axios
-      .get(API_SEARCH)
-      .then((res) => setData(res.data.results))
-      .catch((err) => console.log(err));
-  }, [API_SEARCH]);
+  // const dispatch = useDispatch();
+  // const API_Cate = 'https://api.themoviedb.org/3/genre/movie/list?api_key=9cc1bc46ae7070abb9a43667213d613a&language=en-US';
+  // const API_SEARCH = 'https://api.themoviedb.org/3/search/movie?api_key=9cc1bc46ae7070abb9a43667213d613a&query=' + genres;
+  // const [cate, setCate] = useState();
+  // const [data, setData] = useState();
+  // useEffect(() => {
+  //   axios
+  //     .get(API_SEARCH)
+  //     .then((res) => setData(res.data.results))
+  //     .catch((err) => console.log(err));
+  // }, [API_SEARCH]);
+
+  // useEffect(() => {
+  //   axios
+  //     .get(API_Cate)
+  //     .then((res) => {
+  //       setCate(res.data.genres);
+  //     })
+  //     .catch((err) => console.log(err));
+  // }, [API_Cate]);
 
   useEffect(() => {
-    axios
-      .get(API_Cate)
-      .then((res) => {
-        setCate(res.data.genres);
-      })
-      .catch((err) => console.log(err));
-  }, [API_Cate]);
+    dispatch(getGenre())
+  }, [dispatch]);
+  // console.log(movies);
+
+  // useEffect(() => {
+  //   dispatch(getSearch())
+  // }, [dispatch]);
+ 
+  useEffect(() => {
+    dispatch(getSearchGen(genres))
+  }, [dispatch, genres]);
+
+
+
   //CEK TOKEN
   const credential = localStorage.getItem('credential');
   if (!credential) {
@@ -50,12 +72,17 @@ const Categories = () => {
     <div className="category_page">
       <div className="CateBtn_Wrap">
         <div className="cate_btn">
-          {cate &&
-            cate.map((e) => (
-              <button key={e.id} onClick={() => getGendres(e.name.toLowerCase())}>
-                {e.name}
-              </button>
-            ))}
+        {genre ? (
+            genre.map((genre) => {
+              return (
+                <button key={genre.id} onClick={() => getGendres(genre.name.toLowerCase())}>
+                  {genre.name}
+                </button>
+              );
+            })
+          ) : (
+            <h2>Loading</h2>
+          )}
         </div>
       </div>
       <div className="Search_wrap">
@@ -77,14 +104,18 @@ const Categories = () => {
         className="mySwiper"
       >
         <div className="Popular_item">
-          {data?.map((item) => {
+        {searchGen ? (
+            searchGen.map((searchGen) => {
             return (
               <SwiperSlide>
-                <CardList getID={getID} item={item} />
+                <CardList getID={getID} item={searchGen} />
               </SwiperSlide>
-            );
-          })}
-        </div>
+             );
+            })
+          ) : (
+            <h2>Loading</h2>
+          )}
+      </div>
       </Swiper>
     </div>
   );

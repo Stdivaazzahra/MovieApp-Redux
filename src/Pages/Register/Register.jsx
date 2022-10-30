@@ -8,9 +8,12 @@ import { BsFillCameraFill } from 'react-icons/bs';
 // import { FiEye } from 'react-icons/fi';
 import { FiEyeOff } from 'react-icons/fi';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { register } from '../../App/Counter/registerSlice';
 
 const Register = ({ openRes, onCloseRes }) => {
-  const API_ENDPOINT = `https://notflixtv.herokuapp.com/api/v1/users`;
+  // const API_ENDPOINT = `https://notflixtv.herokuapp.com/api/v1/users`;
+  const dispatch = useDispatch();
   const [preview, setDatapreview] = useState(null);
   const [image, setDataImage] = useState(null);
   const [msg, setMsg] = useState('');
@@ -31,22 +34,38 @@ const Register = ({ openRes, onCloseRes }) => {
   };
 
   console.log(image);
-  const dataSend = (e) => {
+
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const user = {
+    dispatch(register({
       first_name: data.first_name,
       last_name: data.last_name,
       image: image,
       email: data.email,
       password: data.password,
       password_confirmation: data.password_confirmation,
-    };
-    axios
-      .post(API_ENDPOINT, user)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+    })
+    );
   };
+  
 
+  // const dataSend = (e) => {
+  //   e.preventDefault();
+  //   const user = {
+  //     first_name: data.first_name,
+  //     last_name: data.last_name,
+  //     image: image,
+  //     email: data.email,
+  //     password: data.password,
+  //     password_confirmation: data.password_confirmation,
+  //   };
+  //   axios
+  //     .post(API_ENDPOINT, user)
+  //     .then((res) => console.log(res))
+  //     .catch((err) => console.log(err));
+  // };
+  
   if (msg) {
     setTimeout(() => {
       setMsg('');
@@ -61,7 +80,7 @@ const Register = ({ openRes, onCloseRes }) => {
       </div>
       <hr />
       <div className="wrapper_form">
-        <form>
+        <form onSubmit={(e) => handleSubmit(e)}>
           <div className="input_img">
             {preview ? <img src={preview} alt="prevew " className="preview_Img" /> : <BiUserCircle className="iconUser" />}
             <input
@@ -99,7 +118,7 @@ const Register = ({ openRes, onCloseRes }) => {
             <FiEyeOff className="icon_form" />
           </div>
 
-          <button type="submit" onClick={dataSend} className="button">
+          <button type="submit" onClick={handleSubmit} className="button">
             Register Now
           </button>
         </form>

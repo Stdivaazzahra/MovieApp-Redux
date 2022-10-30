@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './HomePage.css';
 import image from './../Images/Header1.jpg';
-import axios from 'axios';
+// import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { TiArrowRightOutline } from 'react-icons/ti';
 import { AiOutlinePlayCircle } from 'react-icons/ai';
@@ -16,44 +16,31 @@ import { Autoplay, Pagination, Navigation } from 'swiper';
 import Alert from '../../components/Alert';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useSelector, useDispatch } from 'react-redux';
-import { getCategory, getMovies } from '../../App/Counter/movieSlice';
+import { getMovies } from '../../App/Counter/movieSlice';
+import { getGenre } from '../../App/Counter/genresSlice';
 import { reset } from '../../App/Counter/auth';
 
 const HomePage = () => {
-  const { movies, isMasuk, cate } = useSelector((state) => state.movies);
+  const { movies, isMasuk } = useSelector((state) => state.movies);
+  const { genre } = useSelector((state) => state.genre);
   const dispatch = useDispatch();
-  // console.log(getMovies());
   const API_IMG = 'https://image.tmdb.org/t/p/w500/';
-  // const API_POPULAR = `https://api.themoviedb.org/3/discover/movie?api_key=9cc1bc46ae7070abb9a43667213d613a&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=2&with_watch_monetization_types=flatrate`;
-  const API_Cate = 'https://api.themoviedb.org/3/genre/movie/list?api_key=9cc1bc46ae7070abb9a43667213d613a&language=en-US';
   const [imageLoaded, setImageLoaded] = useState(true);
-  //UseState
-  //UseEffect
-  //axios
   const navigate = useNavigate();
 
+
   useEffect(() => {
-    axios
-      .get(`https://api.themoviedb.org/3/discover/movie?api_key=9cc1bc46ae7070abb9a43667213d613a&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=2&with_watch_monetization_types=flatrate`)
-      .then((res) => {
-        dispatch(getMovies(res.data.results));
-      })
-      .catch((error) => console.error(error));
+    dispatch(getMovies())
   }, [dispatch]);
   useEffect(() => {
     setTimeout(() => {
       dispatch(reset());
     }, 5000);
   }, [dispatch]);
-
+  
   useEffect(() => {
-    axios
-      .get(API_Cate)
-      .then((res) => {
-        dispatch(getCategory(res.data.genres));
-      })
-      .catch((err) => console.log(err));
-  }, [API_Cate, dispatch]);
+    dispatch(getGenre())
+  }, [dispatch]);
   console.log(movies);
 
   const getID = (id) => {
@@ -122,13 +109,13 @@ const HomePage = () => {
         className="mySwiper"
       >
         <div className="Popular_item">
-          {movies &&
+        {movies ? (
             movies.map((movie) => {
               return (
                 <SwiperSlide>
-                  <div onClick={() => getID(movie._id)} key={movie._id} className="Popular_menu">
+                  <div onClick={() => getID(movie.id)} key={movie.id} className="Popular_menu">
                     {!imageLoaded && <img className="spin-loader" src={spiner} alt="spin loader" />}
-                    <img className="poster" onLoad={handleImageLoaded} src={`${API_IMG}${movie.poster_path}`} alt="Movie Popular" />
+                    <img className="poster" onLoad={handleImageLoaded} src={API_IMG + `${movie.poster_path}`} alt="Movie Popular" />
                     <div className="dec">
                       <h3>{movie.title}</h3>
                       <h4>{movie.release_date}</h4>
@@ -136,7 +123,10 @@ const HomePage = () => {
                   </div>
                 </SwiperSlide>
               );
-            })}
+            })
+          ) : (
+            <h2>Loading</h2>
+          )}
         </div>
       </Swiper>
 
@@ -153,15 +143,22 @@ const HomePage = () => {
 
         <div className="CateBtn_Wrap">
           <div className="cate_btn">
-            {cate &&
-              cate.map((e) => (
-                <button key={e.id} onClick={() => getGendres(e.name.toLowerCase())}>
-                  {e.name}
+          {genre ? (
+            genre.map((genre) => {
+              return (
+                <button key={genre.id} onClick={() => getGendres(genre.name.toLowerCase())}>
+                  {genre.name}
                 </button>
-              ))}
+              );
+            })
+          ) : (
+            <h2>Loading</h2>
+          )}
           </div>
         </div>
       </div>
+
+
       <Swiper
         slidesPerView={5}
         spaceBetween={30}
