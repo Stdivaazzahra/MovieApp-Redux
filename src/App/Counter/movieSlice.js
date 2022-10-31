@@ -13,11 +13,26 @@ export const getMovies = createAsyncThunk("movies/getMovies", async () => {
   }
 });
 
+export const getAllMovie = createAsyncThunk(
+  "allMovie/getAllMovie",
+  async () => {
+    try {
+      const res = await axios.get(
+        `https://api.themoviedb.org/3/movie/popular?api_key=9cc1bc46ae7070abb9a43667213d613a`
+      );
+      console.log(res);
+      return res.data.results;
+    } catch (error) {
+      console.log("error");
+    }
+  }
+);
+
 export const moviesSlice = createSlice({
   name: "movies",
   initialState: {
     movies: null,
-    loading: false,
+    allMovie: null,
     isMasuk: false,
     openLogim: false,
     openRegis: false,
@@ -26,6 +41,9 @@ export const moviesSlice = createSlice({
   extraReducers: {
     [getMovies.fulfilled]: (state, { payload }) => {
       state.movies = payload;
+    },
+    [getAllMovie.fulfilled]: (state, { payload }) => {
+      state.allMovie = payload;
     },
   },
 });

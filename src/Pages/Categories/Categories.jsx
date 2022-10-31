@@ -7,13 +7,13 @@ import { Autoplay, Pagination, Navigation } from 'swiper';
 import CardList from './cardList/CardList';
 import { useDispatch, useSelector } from 'react-redux';
 import { blumMasuk } from '../../App/Counter/auth';
-import { getGenre } from '../../App/Counter/genresSlice';
+import { getGenre, getSearchGen } from '../../App/Counter/genresSlice';
 // import { getSearchGen, searchGenSelectors } from '../../App/Counter/searchSlice';
-import { getSearchGen} from '../../App/Counter/searchGenSlice';
+// import { getSearchGen} from '../../App/Counter/searchGenSlice';
 
 const Categories = () => {
-  const { genre } = useSelector((state) => state.genre);
-  const { searchGen } = useSelector((state) => state.searchGen);
+  const { genre, searchGen } = useSelector((state) => state.genre);
+  // const { searchGen } = useSelector((state) => state.searchGen);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { genres } = useParams();

@@ -9,7 +9,7 @@ import { BsFillCameraFill } from 'react-icons/bs';
 import { FiEyeOff } from 'react-icons/fi';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { register } from '../../App/Counter/registerSlice';
+import { getUserRegist } from '../../App/Counter/loginSlice';
 
 const Register = ({ openRes, onCloseRes }) => {
   // const API_ENDPOINT = `https://notflixtv.herokuapp.com/api/v1/users`;
@@ -38,7 +38,7 @@ const Register = ({ openRes, onCloseRes }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(register({
+    dispatch(getUserRegist({
       first_name: data.first_name,
       last_name: data.last_name,
       image: image,

@@ -53,28 +53,29 @@ export const detailSlice = createSlice({
     cast: null,
     video: null,
   },
-  reducers: {
-    // detail: (state) => {
-    //   state.detail = null;
-    // },
-    // cast: (state) => {
-    //   state.cast = null;
-    // },
-    // video: (state) => {
-    //   state.video = null;
-    // },
-  },
+  reducers: {},
   extraReducers: {
-    [getDetail.fulfilled]: (state, { payload }) => {
-      state.detail = payload;
+    [getDetail.fulfilled]: (state, action) => {
+      state.detail = action.payload;
     },
-    [getDetailCast.fulfilled]: (state, { payload }) => {
-      state.cast = payload;
+    [getDetailCast.fulfilled]: (state, action) => {
+      state.cast = action.payload;
     },
-    [getDetailVideo.fulfilled]: (state, { payload }) => {
-      state.video = payload;
+    [getDetailVideo.fulfilled]: (state, action) => {
+      state.video = action.payload;
     },
   },
+  // extraReducers: {
+  //   [getDetail.fulfilled]: (state, { payload }) => {
+  //     state.detail = payload;
+  //   },
+  //   [getDetailCast.fulfilled]: (state, { payload }) => {
+  //     state.cast = payload;
+  //   },
+  //   [getDetailVideo.fulfilled]: (state, { payload }) => {
+  //     state.video = payload;
+  //   },
+  // },
 });
 // export const detailSlice = createSlice({
 //   name: "detail",
@@ -96,5 +97,5 @@ export const detailSlice = createSlice({
 //     },
 //   },
 // });
-
+// export const { detail, cast, video } = userSlice.actions;
 export default detailSlice.reducer;

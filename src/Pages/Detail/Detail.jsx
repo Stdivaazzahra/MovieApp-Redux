@@ -17,15 +17,10 @@ import { Autoplay, Pagination, Navigation } from 'swiper';
 import { motion } from 'framer-motion';
 
 const Detail = () => {
-  // const [data, setData] = useState();
-  // const [video, setVideo] = useState();
-  // const [cast, setCast] = useState();
   const [open, setOpenVideo] = useState(false);
-  const { detail } = useSelector((state) => state.detail)
-  const { cast } = useSelector((state) => state.cast)
-  const { video } = useSelector((state) => state.video)
-  const dispatch = useDispatch();
 
+  const { detail, cast, video } = useSelector((state) => state.detail)
+  const dispatch = useDispatch();
   const { id } = useParams();
 
   const API_IMG = 'https://image.tmdb.org/t/p/w500/';
@@ -38,15 +33,17 @@ const Detail = () => {
 
   useEffect(() => {
     dispatch(getDetail(id))
-  }, [dispatch, id]);
-  
-  useEffect(() => {
     dispatch(getDetailCast(id))
-  }, [dispatch, id]);
-  
-  useEffect(() => {
     dispatch(getDetailVideo(id))
   }, [dispatch, id]);
+  
+  // useEffect(() => {
+  //   dispatch(getDetailCast(id))
+  // }, [dispatch, id]);
+  
+  // useEffect(() => {
+  //   dispatch(getDetailVideo(id))
+  // }, [dispatch, id]);
 
   // useEffect(() => {
   //   axios

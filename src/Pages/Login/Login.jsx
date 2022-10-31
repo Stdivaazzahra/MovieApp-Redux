@@ -3,14 +3,14 @@ import './Login.css';
 import { AiOutlineMail } from 'react-icons/ai';
 import { FiEyeOff } from 'react-icons/fi';
 import { CgCloseO } from 'react-icons/cg';
-import axios from 'axios';
+// import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { GoogleLogin } from '@react-oauth/google';
-import jwt_decode from 'jwt-decode';
-import { getLoginGoogle } from '../../App/Counter/loginGoogleSlice';
+// import jwt_decode from 'jwt-decode';
+// import { getLoginGoogle } from '../../App/Counter/loginGoogleSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../../App/Counter/loginSlice';
+import { getLogin, getLoginGoogle } from '../../App/Counter/loginSlice';
 
 const Login = ({ open, onClose }) => {
   const navigate = useNavigate();
@@ -47,7 +47,7 @@ const Login = ({ open, onClose }) => {
     e.preventDefault();
     
     dispatch(
-      login({
+      getLogin({
       // name:name,
       email:data.email,
       password:data.password,

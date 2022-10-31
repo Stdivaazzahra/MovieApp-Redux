@@ -141,6 +141,7 @@ const HomePage = () => {
           </Link>
         </div>
 
+
         <div className="CateBtn_Wrap">
           <div className="cate_btn">
           {genre ? (
