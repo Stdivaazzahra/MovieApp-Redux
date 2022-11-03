@@ -80,6 +80,8 @@ const Detail = () => {
   };
   return (
     <>
+    <div className="Detaimov">
+    
       {detail && (
         <motion.div className="detail_wrap" initial={{ scale: 0 }} animate={{ scale: 1 }} layoutId={detail?.id}>
           <div className="background_Detail">
@@ -168,6 +170,7 @@ const Detail = () => {
           </div>
         </motion.div>
       )}
+      </div>
     </>
   );
 };
