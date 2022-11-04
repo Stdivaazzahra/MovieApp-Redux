@@ -13,6 +13,7 @@ const Navbar = () => {
   const [isOpenRes, setIsOpenRes] = useState(false);
   const [setIsOpenGlg] = useState(false);
   const credential = localStorage.getItem('credential');
+  
 
   const navigate = useNavigate();
 
@@ -45,15 +46,15 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar_wrap">
+    <div className="navbar_wrap fixed z-10 overflow-hidden w-full">
       <motion.div variants={variantsNav} initial="hidden" animate="visible" exit="exit">
         <div className="navbar">
-          <Link className="Navbar_Title" to="/">
+          <Link className="Navbar_Title text-[2em] text-[#b50e0e]" to="/">
             <motion.h1 initial={{ x: '-100vw' }} animate={{ x: 0 }} exit={{ x: '-100vw' }} transition={{ duration: 0.5, delay: 1 }}>
               MovieList
             </motion.h1>
           </Link>
-          <div className="Navbar_search">
+          <div className="Navbar_search w-[30%] border-[#b50e0e]">
             <form
               onSubmit={(e) => {
                 e.preventDefault();
@@ -63,7 +64,7 @@ const Navbar = () => {
             >
               <input onChange={(e) => setDataSearch(e.target.value)} value={dataSearch} className="cari" type="text" placeholder="What do you want to watch?" />
               <button type="submit">
-                <BiSearchAlt className="navbar_icon" />
+                <BiSearchAlt className="navbar_icon text-[#b50e0e] font-black" />
               </button>
             </form>
           </div>
@@ -71,39 +72,41 @@ const Navbar = () => {
           <motion.div className="navbar_bottom" initial={{ x: '100vw' }} animate={{ x: 0 }} exit={{ x: '100vw' }} transition={{ duration: 0.5, delay: 1 }}>
             {credential ? (
               <>
-                <span className="name">{localStorage.getItem('given_name')}</span>
+                <span className="name text-[#b50e0e] font-extrabold">{localStorage.getItem('name')}</span>
                 <img className="avatar" src="https://fanbookcdn.fanbook.me/profile/2018/11/30/fde1d526a4a242a9943b48e76d4309b6_1543549001144.png" alt="avatar user" />
                 <span
                   onClick={() => {
                     localStorage.clear();
                     navigate('/');
                   }}
-                  className="name"
+                  className="name text-[#b50e0e] font-extrabold"
                 >
                   LOGOUT
                 </span>
               </>
-            ) : credential ? (
+            ) 
+            // : credential ? (
+            //   <>
+            //     <span className="name"> {localStorage.getItem('given_name')} </span>
+            //     <img className="avatar" src="https://i.pinimg.com/originals/87/25/26/87252688f7652c9e5c777e0c735cf4fb.jpg" alt="avatar user" />
+            //     <span
+            //       onClick={() => {
+            //         localStorage.clear();
+            //         navigate('/');
+            //       }}
+            //       className="name"
+            //     >
+            //       LOGOUT
+            //     </span>
+            //   </>
+            // ) 
+            : (
               <>
-                <span className="name"> {localStorage.getItem('given_name')} </span>
-                <img className="avatar" src="https://i.pinimg.com/originals/87/25/26/87252688f7652c9e5c777e0c735cf4fb.jpg" alt="avatar user" />
-                <span
-                  onClick={() => {
-                    localStorage.clear();
-                    navigate('/');
-                  }}
-                  className="name"
-                >
-                  LOGOUT
-                </span>
-              </>
-            ) : (
-              <>
-                <button onClick={() => setIsOpen(true)} className="login">
+                <button onClick={() => setIsOpen(true)} className="login text-[#b50e0e] font-extrabold ">
                   Login
                 </button>
                 <GoogleOAuthProvider onClick={() => setIsOpenGlg(true)} />
-                <button onClick={() => setIsOpenRes(true)} className="register">
+                <button onClick={() => setIsOpenRes(true)} className="register bg-[#b50e0e] font-extrabold text-white ">
                   Register
                 </button>
               </>

@@ -1,8 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Cabin:wght@400;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Cabin:wght@400;600;700&display=swap");
 
 .wrap_form {
   width: 30%;
-  font-family: 'Cabin', sans-serif;
+  font-family: "Cabin", sans-serif;
   background-color: rgb(233, 232, 232);
   display: flex;
   flex-direction: column;
@@ -32,13 +32,8 @@ div.item_form {
   padding-bottom: 1rem;
 }
 
-.icon_close {
-  font-size: 1.5rem;
-  cursor: pointer;
-}
-
 .icon_close:hover {
-  color: rgb(181, 14, 14);
+  color: #b50e0e;
 }
 
 hr {
@@ -60,6 +55,7 @@ form {
 input {
   width: 100%;
   border: none;
+  color: black;
 }
 
 input:focus {
@@ -72,17 +68,14 @@ input:focus {
   display: flex;
   align-items: center;
   transition: all 0.2s linear;
-  width: 100%;
-  height: 2.5rem;
   padding-left: 1rem;
   padding-right: 1rem;
   border-radius: 5rem;
   margin: 0.6rem 0;
   border: solid rgba(0, 0, 0, 0.199);
-  font-family: 'Cabin', sans-serif;
+  font-family: "Cabin", sans-serif;
   font-size: 1rem;
   background-color: white;
-  /* height: 100%; */
 }
 
 .input_box:hover {
@@ -102,25 +95,21 @@ input:focus {
 }
 
 .button {
-  font-family: 'Cabin', sans-serif;
+  font-family: "Cabin", sans-serif;
   font-size: 1rem;
   margin: 0.5rem 0;
-  width: 100%;
   align-self: flex-start;
-  height: 2.5rem;
   border-radius: 5rem;
   padding: 0 1rem;
-  background-color: rgba(182, 24, 24, 0.921);
-  color: rgba(182, 24, 24, 0.921);
   border: solid rgb(182, 24, 24);
   transition: all 0.2s linear;
   cursor: pointer;
 }
 
 .button:hover {
-  background-color: rgb(181, 14, 14);
+  background-color: transparent;
   font-weight: bolder;
-  color: white;
+  color: rgb(182, 24, 24);
   box-shadow: 2px 2px 5px rgba(255, 3, 3, 0.589);
 }
 
@@ -153,7 +142,6 @@ input:focus {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   margin-bottom: 1rem;
 }
 

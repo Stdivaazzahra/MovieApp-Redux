@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect  } from 'react';
 import './Register.css';
 import { CgCloseO } from 'react-icons/cg';
 import { AiOutlineMail } from 'react-icons/ai';
@@ -11,43 +11,91 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { getUserRegist } from '../../App/Counter/loginSlice';
 
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useNavigate } from "react-router-dom";
+import {
+  auth,
+  registerWithEmailAndPassword,
+} from '../../App/Counter/firebaseSlice';
+import "./Register.css";
+
 const Register = ({ openRes, onCloseRes }) => {
-  // const API_ENDPOINT = `https://notflixtv.herokuapp.com/api/v1/users`;
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [user, loading, error] = useAuthState(auth);
   const dispatch = useDispatch();
+  // const [msg, setMsg] = useState('');
+  const dataValue = {
+    email: '',
+    password: '',
+  }
+  const [data, setData] = useState(dataValue);
+
+  const handleDataInput = (e) => {
+    const {name, value} = e.target;
+    setData({ ...data, [name]: value});
+  };
+  // const handleDataInput = (e) => {
+  //   setData({
+  //     ...data,
+  //     [e.target.name]: e.target.value,
+  //   });
+  // };
+
+  const navigate = useNavigate();
+
+  const handleRegister = async (e) => {
+    e.preventDefault(data);
+    // console.log(data)
+    dispatch(registerWithEmailAndPassword(data));
+  };
+  // useEffect(() => {
+  //   if (loading) return;
+  //   if (user)
+  //   onCloseRes(false) 
+  //   navigate("/");
+  // }, [user, loading, navigate, onCloseRes]);
+  
+  // const API_ENDPOINT = `https://notflixtv.herokuapp.com/api/v1/users`;
+  
   const [preview, setDatapreview] = useState(null);
   const [image, setDataImage] = useState(null);
   const [msg, setMsg] = useState('');
-  const [data, setData] = useState({
-    first_name: '',
-    last_name: '',
-    email: '',
-    password: '',
-    password_confirmation: '',
-  });
+
+  // const [data, setData] = useState({
+  //   first_name: '',
+  //   last_name: '',
+  //   email: '',
+  //   password: '',
+  //   password_confirmation: '',
+  // });
 
   if (!openRes) return null;
-  const handleDataInput = (e) => {
-    setData({
-      ...data,
-      [e.target.name]: e.target.value,
-    });
-  };
+  // const handleDataInput = (e) => {
+  //   setData({
+  //     ...data,
+  //     [e.target.name]: e.target.value,
+  //   });
+  // };
 
-  console.log(image);
+  // console.log(image);
 
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(getUserRegist({
-      first_name: data.first_name,
-      last_name: data.last_name,
-      image: image,
-      email: data.email,
-      password: data.password,
-      password_confirmation: data.password_confirmation,
-    })
-    );
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   dispatch(getUserRegist({
+  //     first_name: data.first_name,
+  //     last_name: data.last_name,
+  //     displayName: data.name,
+  //     image: image,
+  //     email: data.email,
+  //     password: data.password,
+  //     password_confirmation: data.password_confirmation,
+  //   })
+  //   );
+  // };
   
 
   // const dataSend = (e) => {
@@ -75,50 +123,45 @@ const Register = ({ openRes, onCloseRes }) => {
     <div className={`wrap_form_Res`}>
       <span className={`error ${msg && 'muncul'}`}>{msg} !!</span>
       <div className="item_form_Res">
-        <h1> Create Account</h1>
-        <CgCloseO onClick={() => onCloseRes(false)} className="icon_close" />
+        <h1> Register With Email And Password</h1>
+        <CgCloseO onClick={() => onCloseRes(false)} className="icon_close text-2xl cursor-pointer" />
       </div>
       <hr />
       <div className="wrapper_form">
-        <form onSubmit={(e) => handleSubmit(e)}>
-          <div className="input_img">
-            {preview ? <img src={preview} alt="prevew " className="preview_Img" /> : <BiUserCircle className="iconUser" />}
-            <input
-              type="file"
-              id="file"
-              onChange={(e) => {
-                setDataImage(e.target.files[0]);
-                setDatapreview(URL.createObjectURL(e.target.files[0]));
-              }}
-            />
-            <label htmlFor="file">
-              <BsFillCameraFill className="iconCamera" />
-            </label>
+        <form onSubmit={(e) => handleDataInput(e)}>
+
+          {/* <div className="input_box">
+            <input type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Full Name" 
+                required />
+                <FaRegUser className="icon_form" />
+          </div> */}
+
+          <div className="input_box">
+            <input type="text"
+                className="register__textBox h-10 w-full"
+                name='email'
+                value={data.email}
+                onChange={handleRegister}
+                placeholder="E-mail Address" 
+                required />
+                <AiOutlineMail className="icon_form" />
           </div>
 
           <div className="input_box">
-            <input onChange={handleDataInput} name="first_name" type="text" placeholder="First Name" required />
-            <FaRegUser className="icon_form" />
-          </div>
-          <div className="input_box">
-            <input onChange={handleDataInput} type="text" placeholder="Last Name" name="last_name" required />
-            <FaRegUser className="icon_form" />
-          </div>
-          <div className="input_box">
-            <input onChange={handleDataInput} type="email" placeholder="Email Address" name="email" required />
-            <AiOutlineMail className="icon_form" />
+            <input  type="password"
+                className="register__textBox h-10 w-full"
+                name='password'
+                value={data.password}
+                onChange={handleRegister}
+                placeholder="Password" 
+                required />
+                <FiEyeOff className="icon_form" />
           </div>
 
-          <div className="input_box">
-            <input onChange={handleDataInput} type="password" placeholder="Password" name="password" required />
-            <FiEyeOff className="icon_form" />
-          </div>
-          <div className="input_box">
-            <input onChange={handleDataInput} type="password" placeholder="Password Confirmation" name="password_confirmation" required />
-            <FiEyeOff className="icon_form" />
-          </div>
-
-          <button type="submit" onClick={handleSubmit} className="button">
+          <button type="submit" className="button w-full h-10 bg-[#b50e0e] text-white">
             Register Now
           </button>
         </form>

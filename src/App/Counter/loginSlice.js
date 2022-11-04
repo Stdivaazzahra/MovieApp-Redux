@@ -1,23 +1,33 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+// import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 // import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {
+  logInWithEmailAndPassword,
+  registerWithEmailAndPassword,
+  signInWithGoogle,
+} from "../../firebase";
 
-export const getLogin = createAsyncThunk("login/getLogin", async () => {
-  try {
-    const res = await axios.post(
-      `https://notflixtv.herokuapp.com/api/v1/users/login`
-    );
-    localStorage.setItem("credential", res.data.data.token);
-    localStorage.setItem("given_name", res.data.data.first_name);
-    console.log(res);
-    // return res.data.results;
-  } catch (error) {
-    // catch ((error) => setMsg('Email atau PassWord Salah'));
-    // };
-    console.log("error");
+export const handleLogin = createAsyncThunk(
+  "login/getLogin",
+  async (formValues) => {
+    try {
+      const req = await logInWithEmailAndPassword(
+        formValues.email,
+        formValues.password
+      );
+      console.log(req);
+      // localStorage.setItem("token", JSON.stringify(req.user.accessToken));
+      // localStorage.setItem("user", JSON.stringify(req.user));
+      setTimeout(() => {
+        window.location.reload(1);
+      }, 1500);
+    } catch (error) {
+      console.error(error);
+    }
   }
-});
+);
 
 // if (msg) {
 //   setTimeout(() => {
