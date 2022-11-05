@@ -4,18 +4,20 @@ export const Auth = createSlice({
   name: 'auth',
   initialState: {
     isMasuk: false,
-    openLogim: false,
+    openLogin: false,
     openRegis: false,
   },
   reducers: {
-    blumMasuk: (state) => {
-      state.isMasuk = true;
+    blumMasuk: (state, { payload }) => {
+      state.isMasuk = payload;
     },
-    reset: (state) => (state.isMasuk = false),
-    login: (state) => (state.openLogim = true),
+    resetBelumMasuk: (state, { payload }) => {
+      state.isMasuk = payload;
+    },
+    login: (state) => (state.openLogin = true),
     register: (state) => (state.openRegis = true),
   },
 });
 
-export const { reset, login, register, blumMasuk } = Auth.actions;
+export const { resetBelumMasuk, login, register, blumMasuk } = Auth.actions;
 export default Auth.reducer;

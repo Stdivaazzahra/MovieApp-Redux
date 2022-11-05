@@ -7,6 +7,7 @@ import spiner from '../../assets/spin-loader.gif';
 import { motion } from 'framer-motion';
 import { getSearch } from '../../App/Counter/searchSlice';
 import { useSelector, useDispatch } from 'react-redux';
+import { blumMasuk } from '../../App/Counter/auth';
 
 const Search = () => {
   const { name } = useParams();
@@ -25,13 +26,13 @@ const Search = () => {
   // }, [API_Search]);
 
   useEffect(() => {
-    dispatch(getSearch(name))
+    dispatch(getSearch(name));
   }, [dispatch, name]);
 
   //CEK TOKEN
   const credential = localStorage.getItem('credential');
   if (!credential) {
-    // dispatch({ type: 'BELUM_MASUK' });
+    dispatch(blumMasuk({ payload: true }));
     return <Navigate to="/" replace />;
   }
 
