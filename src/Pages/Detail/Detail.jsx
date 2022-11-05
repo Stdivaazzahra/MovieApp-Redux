@@ -25,51 +25,12 @@ const Detail = () => {
 
   const API_IMG = 'https://image.tmdb.org/t/p/w500/';
 
-  // const API_Detail = `https://api.themoviedb.org/3/movie/${id}?api_key=9cc1bc46ae7070abb9a43667213d613a&language=en-US`;
-
-  // const LINK_VIDEO_API = `https://api.themoviedb.org/3/movie/${id}/videos?api_key=9cc1bc46ae7070abb9a43667213d613a&language=en-US`;
-
-  // const API_Cast = `https://api.themoviedb.org/3/movie/${id}/credits?api_key=9cc1bc46ae7070abb9a43667213d613a`;
-
   useEffect(() => {
     dispatch(getDetail(id))
     dispatch(getDetailCast(id))
     dispatch(getDetailVideo(id))
   }, [dispatch, id]);
   
-  // useEffect(() => {
-  //   dispatch(getDetailCast(id))
-  // }, [dispatch, id]);
-  
-  // useEffect(() => {
-  //   dispatch(getDetailVideo(id))
-  // }, [dispatch, id]);
-
-  // useEffect(() => {
-  //   axios
-  //     .get(API_Detail)
-  //     .then((ress) => setData(ress.data))
-  //     .catch((err) => console.log(err));
-  // }, [setData, API_Detail]);
-  // console.log(data);
-
-  // useEffect(() => {
-  //   axios
-  //     .get(LINK_VIDEO_API)
-  //     .then((ress) => {
-  //       setVideo(ress.data.results);
-  //       console.log(ress.data.results);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }, [LINK_VIDEO_API]);
-  // console.log(video?.AD.link)
-
-  // useEffect(() => {
-  //   axios
-  //     .get(API_Cast)
-  //     .then((ress) => setCast(ress.data.cast.slice(0, 10)))
-  //     .catch((err) => console.log(err));
-  // }, [API_Cast]);
   //CEK TOKEN
   const credential = localStorage.getItem('credential');
   if (!credential) {

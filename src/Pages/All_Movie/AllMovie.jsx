@@ -6,10 +6,8 @@ import spiner from '../../assets/spin-loader.gif';
 import { motion } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllMovie } from '../../App/Counter/movieSlice';
-// import '../AllMovie/AllMovie.css'
 
 const AllMovie = () => {
-  // const API_ALL = 'https://api.themoviedb.org/3/movie/popular?api_key=9cc1bc46ae7070abb9a43667213d613a';
   const { allMovie } = useSelector((state) => state.movies)
   const dispatch = useDispatch();
   const API_IMG = 'https://image.tmdb.org/t/p/w500/';

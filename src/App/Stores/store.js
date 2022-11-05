@@ -5,18 +5,14 @@ import genresSlice from "../Counter/genresSlice";
 import search from "../Counter/searchSlice";
 import detailSlice from "../Counter/detailSlice";
 import auth from "../Counter/auth";
-import firebaseSlice from "../Counter/firebaseSlice";
-// import Alert from "../../components/Alert";
 
 export const store = configureStore({
   reducer: {
-    login: loginSlice,
-    firebase: firebaseSlice,
+    user: loginSlice,
     movies: moviesSlice,
     genre: genresSlice,
     search: search,
     detail: detailSlice,
     auth: auth,
-    // Alert: Alert,
   },
 });

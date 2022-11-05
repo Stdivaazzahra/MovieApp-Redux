@@ -8,50 +8,20 @@ import CardList from './cardList/CardList';
 import { useDispatch, useSelector } from 'react-redux';
 import { blumMasuk } from '../../App/Counter/auth';
 import { getGenre, getSearchGen } from '../../App/Counter/genresSlice';
-// import { getSearchGen, searchGenSelectors } from '../../App/Counter/searchSlice';
-// import { getSearchGen} from '../../App/Counter/searchGenSlice';
 
 const Categories = () => {
   const { genre, searchGen } = useSelector((state) => state.genre);
-  // const { searchGen } = useSelector((state) => state.searchGen);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { genres } = useParams();
-  // const dispatch = useDispatch();
-  // const API_Cate = 'https://api.themoviedb.org/3/genre/movie/list?api_key=9cc1bc46ae7070abb9a43667213d613a&language=en-US';
-  // const API_SEARCH = 'https://api.themoviedb.org/3/search/movie?api_key=9cc1bc46ae7070abb9a43667213d613a&query=' + genres;
-  // const [cate, setCate] = useState();
-  // const [data, setData] = useState();
-  // useEffect(() => {
-  //   axios
-  //     .get(API_SEARCH)
-  //     .then((res) => setData(res.data.results))
-  //     .catch((err) => console.log(err));
-  // }, [API_SEARCH]);
-
-  // useEffect(() => {
-  //   axios
-  //     .get(API_Cate)
-  //     .then((res) => {
-  //       setCate(res.data.genres);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }, [API_Cate]);
 
   useEffect(() => {
     dispatch(getGenre())
   }, [dispatch]);
-  // console.log(movies);
-
-  // useEffect(() => {
-  //   dispatch(getSearch())
-  // }, [dispatch]);
  
   useEffect(() => {
     dispatch(getSearchGen(genres))
   }, [dispatch, genres]);
-
-
 
   //CEK TOKEN
   const credential = localStorage.getItem('credential');
