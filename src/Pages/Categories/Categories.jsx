@@ -1,5 +1,4 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useParams, useNavigate, Navigate } from 'react-router-dom';
 import './Categories.css';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -16,17 +15,17 @@ const Categories = () => {
   const { genres } = useParams();
 
   useEffect(() => {
-    dispatch(getGenre())
+    dispatch(getGenre());
   }, [dispatch]);
- 
+
   useEffect(() => {
-    dispatch(getSearchGen(genres))
+    dispatch(getSearchGen(genres));
   }, [dispatch, genres]);
 
   //CEK TOKEN
   const credential = localStorage.getItem('credential');
   if (!credential) {
-    dispatch(blumMasuk());
+    dispatch(blumMasuk(true));
     return <Navigate to="/" replace />;
   }
 
@@ -42,7 +41,7 @@ const Categories = () => {
     <div className="category_page">
       <div className="CateBtn_Wrap">
         <div className="cate_btn">
-        {genre ? (
+          {genre ? (
             genre.map((genre) => {
               return (
                 <button key={genre.id} onClick={() => getGendres(genre.name.toLowerCase())}>
@@ -74,18 +73,18 @@ const Categories = () => {
         className="mySwiper"
       >
         <div className="Popular_item">
-        {searchGen ? (
+          {searchGen ? (
             searchGen.map((searchGen) => {
-            return (
-              <SwiperSlide>
-                <CardList getID={getID} item={searchGen} />
-              </SwiperSlide>
-             );
+              return (
+                <SwiperSlide>
+                  <CardList getID={getID} item={searchGen} />
+                </SwiperSlide>
+              );
             })
           ) : (
             <h2>Loading</h2>
           )}
-      </div>
+        </div>
       </Swiper>
     </div>
   );

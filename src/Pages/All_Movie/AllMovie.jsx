@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './AllMovie.css';
 import { Link, Navigate } from 'react-router-dom';
 import image2 from './../Images/Header3.jpg';
@@ -6,20 +6,22 @@ import spiner from '../../assets/spin-loader.gif';
 import { motion } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllMovie } from '../../App/Counter/movieSlice';
+import { blumMasuk } from '../../App/Counter/auth';
 
 const AllMovie = () => {
-  const { allMovie } = useSelector((state) => state.movies)
+  const { allMovie } = useSelector((state) => state.movies);
   const dispatch = useDispatch();
   const API_IMG = 'https://image.tmdb.org/t/p/w500/';
   const [imageLoaded, setImageLoaded] = useState(true);
 
   useEffect(() => {
-    dispatch(getAllMovie())
+    dispatch(getAllMovie());
   }, [dispatch]);
 
   //CEK TOKEN
   const credential = localStorage.getItem('credential');
   if (!credential) {
+    dispatch(blumMasuk(true));
     return <Navigate to="/" replace />;
   }
 

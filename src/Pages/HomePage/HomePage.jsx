@@ -18,28 +18,29 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useSelector, useDispatch } from 'react-redux';
 import { getMovies } from '../../App/Counter/movieSlice';
 import { getGenre } from '../../App/Counter/genresSlice';
-import { reset } from '../../App/Counter/auth';
+import { reset, resetBelumMasuk } from '../../App/Counter/auth';
 
 const HomePage = () => {
-  const { movies, isMasuk } = useSelector((state) => state.movies);
+  const { movies } = useSelector((state) => state.movies);
   const { genre } = useSelector((state) => state.genre);
+  const { isMasuk } = useSelector((state) => state.auth);
+
   const dispatch = useDispatch();
   const API_IMG = 'https://image.tmdb.org/t/p/w500/';
   const [imageLoaded, setImageLoaded] = useState(true);
   const navigate = useNavigate();
 
-
   useEffect(() => {
-    dispatch(getMovies())
+    dispatch(getMovies());
   }, [dispatch]);
   useEffect(() => {
     setTimeout(() => {
-      dispatch(reset());
-    }, 5000);
-  }, [dispatch]);
-  
+      dispatch(resetBelumMasuk(false));
+    }, 3000);
+  }, [isMasuk, dispatch]);
+
   useEffect(() => {
-    dispatch(getGenre())
+    dispatch(getGenre());
   }, [dispatch]);
   console.log(movies);
 
@@ -109,7 +110,7 @@ const HomePage = () => {
         className="mySwiper"
       >
         <div className="Popular_item">
-        {movies ? (
+          {movies ? (
             movies.map((movie) => {
               return (
                 <SwiperSlide>
@@ -141,24 +142,22 @@ const HomePage = () => {
           </Link>
         </div>
 
-
         <div className="CateBtn_Wrap">
           <div className="cate_btn">
-          {genre ? (
-            genre.map((genre) => {
-              return (
-                <button key={genre.id} onClick={() => getGendres(genre.name.toLowerCase())}>
-                  {genre.name}
-                </button>
-              );
-            })
-          ) : (
-            <h2>Loading</h2>
-          )}
+            {genre ? (
+              genre.map((genre) => {
+                return (
+                  <button key={genre.id} onClick={() => getGendres(genre.name.toLowerCase())}>
+                    {genre.name}
+                  </button>
+                );
+              })
+            ) : (
+              <h2>Loading</h2>
+            )}
           </div>
         </div>
       </div>
-
 
       <Swiper
         slidesPerView={5}

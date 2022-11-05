@@ -6,7 +6,6 @@ import Navbar from './Pages/Navbar/Navbar';
 import Search from './Pages/Seacrh/Search';
 import Categories from './Pages/Categories/Categories';
 import Footer from './Pages/Footer/Footer';
-import { useReducer } from 'react';
 import { AnimatePresence, AnimateSharedLayout } from 'framer-motion';
 
 function App() {

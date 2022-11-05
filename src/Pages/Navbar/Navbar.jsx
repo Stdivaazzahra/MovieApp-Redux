@@ -1,24 +1,27 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { BiSearchAlt } from 'react-icons/bi';
 import './Navbar.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { motion } from 'framer-motion';
+import { blumMasuk } from '../../App/Counter/auth';
+import { useDispatch } from 'react-redux';
 
 const Navbar = () => {
   const [dataSearch, setDataSearch] = useState();
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenRes, setIsOpenRes] = useState(false);
   const [setIsOpenGlg] = useState(false);
-  const credential = localStorage.getItem('credential');
-  
 
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
+  const credential = localStorage.getItem('credential');
   const searchBtn = (name) => {
     if (!credential) {
+      dispatch(blumMasuk(true));
+      return <Navigate to="/" replace />;
     } else {
       if (name) {
         navigate(`/Search/${name}`);
@@ -84,23 +87,22 @@ const Navbar = () => {
                   LOGOUT
                 </span>
               </>
-            ) 
-            // : credential ? (
-            //   <>
-            //     <span className="name"> {localStorage.getItem('given_name')} </span>
-            //     <img className="avatar" src="https://i.pinimg.com/originals/87/25/26/87252688f7652c9e5c777e0c735cf4fb.jpg" alt="avatar user" />
-            //     <span
-            //       onClick={() => {
-            //         localStorage.clear();
-            //         navigate('/');
-            //       }}
-            //       className="name"
-            //     >
-            //       LOGOUT
-            //     </span>
-            //   </>
-            // ) 
-            : (
+            ) : (
+              // : credential ? (
+              //   <>
+              //     <span className="name"> {localStorage.getItem('given_name')} </span>
+              //     <img className="avatar" src="https://i.pinimg.com/originals/87/25/26/87252688f7652c9e5c777e0c735cf4fb.jpg" alt="avatar user" />
+              //     <span
+              //       onClick={() => {
+              //         localStorage.clear();
+              //         navigate('/');
+              //       }}
+              //       className="name"
+              //     >
+              //       LOGOUT
+              //     </span>
+              //   </>
+              // )
               <>
                 <button onClick={() => setIsOpen(true)} className="login text-[#b50e0e] font-extrabold ">
                   Login
